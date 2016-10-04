@@ -59,6 +59,7 @@ class FunctionNode(object):
 # file_name = '../tests/toy_example_1.py'
 file_name = '../tests/sp14_006_ps4_folder_test/decimal.py'
 # file_name = '../tests/006_ps5_test.py'
+# file_name = '../tests/006_ps4_test.py'
 
 functions = []
 
@@ -90,10 +91,11 @@ G.add_edges_from(directed_edges)
 values = ['white' for node in G.nodes()]
 labels={}
 
-node_labels = [name.strip('_') for name in G.nodes()]
+# node_labels = [name.strip('_') for name in G.nodes()]
+node_labels = [name for name in G.nodes()]
 for i in xrange(len(G.nodes())):
 	# labels[G.nodes()[i]]=r'$%s$' % (G.nodes()[i])
-	labels[G.nodes()[i]] = r'$%s$' %(node_labels[i])
+	labels[G.nodes()[i]] = r'%s' %(node_labels[i])
 pos = nx.spring_layout(G)
 
 nx.draw_networkx_nodes (G, pos, node_color = values, node_size = 1500, alpha = 0.5)
