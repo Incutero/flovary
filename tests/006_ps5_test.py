@@ -85,9 +85,3 @@ def travel_cost(avatar, distance, stations):
                 if cost[nextStation] > newCost:
                     cost[nextStation] = newCost
     return cost[stations[-1]]-2.0
-
-
-
-
-
-                                        
