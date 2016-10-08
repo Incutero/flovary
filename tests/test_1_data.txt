@@ -1,0 +1,1 @@
+{"foobar": {"called_by": ["main"], "params": [], "calls": []}, "main": {"called_by": [], "params": ["int", "float", "dict"], "calls": ["foo", "bar", "foobar"]}, "bar": {"called_by": ["foo", "main"], "params": ["int"], "calls": []}, "foo": {"called_by": ["main"], "params": ["int", "int", "arr"], "calls": ["bar"]}}
