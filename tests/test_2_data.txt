@@ -1,0 +1,1 @@
+{"lollercopter": {"called_by": ["lollercopter", "lollerskates"], "params": ["int"], "calls": ["lollercopter"]}, "main": {"called_by": [], "params": ["tuple", "int"], "calls": ["lollerskates", "lollercopter"]}, "lollerskates": {"called_by": ["lollerskates", "main"], "params": ["float", "arr"], "calls": ["lollerskates", "lollercopter"]}}
