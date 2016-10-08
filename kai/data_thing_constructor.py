@@ -57,9 +57,11 @@ class FunctionNode(object):
 
 
 # file_name = '../tests/toy_example_1.py'
-file_name = '../tests/sp14_006_ps4_folder_test/decimal.py'
+# file_name = '../tests/sp14_006_ps4_folder_test/decimal.py'
 # file_name = '../tests/006_ps5_test.py'
 # file_name = '../tests/006_ps4_test.py'
+# file_name  = '../tests/k_cookies_n_gen_incr.py'
+# file_name = 'data_thing_constructor.py'
 
 functions = []
 
