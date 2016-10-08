@@ -23,17 +23,46 @@ class FuncCallVisitor(ast.NodeVisitor):
         except AttributeError:
             self.generic_visit(node)
 
+def iter_fields(node):
+    """
+    Yield a tuple of ``(fieldname, value)`` for each field in ``node._fields``
+    that is present on *node*.
+    """
+    for field in node._fields:
+        try:
+            yield field, getattr(node, field)
+        except AttributeError:
+            pass
 
-class FuncLister(ast.NodeVisitor):
-    def visit_FunctionDef(self, node):
-        print(node.name)
-        self.generic_visit(node)
+def iter_child_nodes(node):
+    """
+    Yield all direct child nodes of *node*, that is, all fields that are nodes
+    and all items of fields that are lists of nodes.
+    """
+    child_nodes = []
+    for name, field in iter_fields(node):
+        if isinstance(field, ast.AST):
+            child_nodes.append(field)
+        elif isinstance(field, list):
+            for item in field:
+                if isinstance(item, ast.AST):
+                    child_nodes.append(item)
+    return child_nodes
+
+def dfs_walk(node):
+    todo = deque([node])
+    while todo:
+        node = todo.popleft()
+        child_nodes = iter_child_nodes(node)
+        child_nodes.reverse()
+        if child_nodes is not None:
+            todo.extendleft(child_nodes)
+        yield node
 
 def get_func_calls(tree):
     func_calls = []
-    for node in ast.walk(tree):
+    for node in dfs_walk(tree):
         if isinstance(node, ast.Call):
-#            print node.args
             callvisitor = FuncCallVisitor()
             callvisitor.visit(node.func)
             func_calls.append(callvisitor.name)
@@ -41,6 +70,5 @@ def get_func_calls(tree):
     return func_calls
 
 if __name__ == '__main__':
-    tree = ast.parse(open('main.py').read())
+    tree = ast.parse(open('sample.py').read())
     print get_func_calls(tree)
-#    print FuncLister().visit(tree)
