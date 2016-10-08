@@ -1,7 +1,6 @@
 import ast
 from collections import deque
 
-
 class FuncCallVisitor(ast.NodeVisitor):
     def __init__(self):
         self._name = deque()
