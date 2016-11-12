@@ -11,11 +11,17 @@ def mai2n():
 #    overall()
     foo.bar()
     if (a):
+#        if (f):
+#            h()
+#            i()
+#        else:
+#            k()
         b()
     elif (c):
         e()
     else:
         d()
+        g()
 
 
 # foo.bar(arg=foo.meow(foo.z(arg=data)))  # three function calls
