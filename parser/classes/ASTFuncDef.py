@@ -9,7 +9,7 @@ class ASTFuncDef(object):
         self.name = node.name
         self.calls = self.dfs_walk_get_calls(node)
 
-    def tostr(self):
+    def __str__(self):
         print self.name
 
     def dfs_walk_get_calls(self, node):
@@ -17,6 +17,7 @@ class ASTFuncDef(object):
         todo = deque([node])
         while todo:
             node = todo.popleft()
+            print node
             if isinstance(node, ast.Call):
                 all_calls.append(Call(node))
             child_nodes = iter_child_nodes(node)
