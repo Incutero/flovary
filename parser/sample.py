@@ -8,7 +8,8 @@ def overall():
     foo.bar(arg=data)                       # a function call
 
 def mai2n():
-    overall()
+#    overall()
+    foo.bar()
 
 
 # foo.bar(arg=foo.meow(foo.z(arg=data)))  # three function calls
