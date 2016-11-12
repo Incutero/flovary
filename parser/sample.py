@@ -1,10 +1,16 @@
 # sample.py
 import foo
 
-data = open('file')                     # a function call
+def overall():
 
-foo.bar(arg=data)                       # a function call
+    data = open('file')                     # a function call
 
-foo.bar(arg=foo.meow(foo.z(arg=data)))  # three function calls
+    foo.bar(arg=data)                       # a function call
 
-foo.woof(foo.x.y(arg=data))             # two function calls
+def mai2n():
+    overall()
+
+
+# foo.bar(arg=foo.meow(foo.z(arg=data)))  # three function calls
+
+# foo.woof(foo.x.y(arg=data))             # two function calls
