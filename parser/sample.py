@@ -1,6 +1,9 @@
 # sample.py
 import foo
 
+def null_func():
+    x = 3
+
 def overall():
     if (x):
         y()
@@ -19,6 +22,10 @@ def mai2n():
     for i in xrange(3):
         print i
         flc()
+    foo.go()
+    if (x):
+        x = 3
+    foo.buzz()
     if (a):
 #       t()
         if (f):
@@ -29,6 +36,8 @@ def mai2n():
         b()
     elif (c):
         e()
+    elif(m):
+        x = 2
     else:
         d()
         g()

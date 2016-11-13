@@ -17,26 +17,39 @@ def dfs_walk_ifs(node):
         else:
             children.append(dfs_walk_body(node.orelse))
             break
-    return flatten(children)
+    children = flatten(children)
+    print 'before none-filtering', children
+    children = [x for x in children if x != None]
+    print 'after none-filtering', children
+    return children
 
 # Walks through body and
 def dfs_walk_body(todo):
     todo = deque(todo)
     latest_calls = [Call(None)]
     first_call = None
+    child_nodes = None
     while todo:
         node = todo.popleft()
         if isinstance(node, ast.If):
             children = dfs_walk_ifs(node)
-            for child in children:
-                for latest_call in latest_calls:
-                    latest_call.add_child(child)
-                    child.add_parent(latest_call)
-            latest_calls = [child.get_tails() for child in children]
-            latest_calls = flatten(latest_calls)
-            child_nodes = None
-            if first_call is None:
-                first_call = children
+            if children:
+                print 'node', node
+                print 'node_body', node.body
+                print 'children', children
+                for child in children:
+                    if child:
+                        print child.name
+                for child in children:
+                    print 'child', child
+                    for latest_call in latest_calls:
+                        latest_call.add_child(child)
+                        child.add_parent(latest_call)
+                latest_calls = [child.get_tails() for child in children]
+                latest_calls = flatten(latest_calls)
+                child_nodes = None
+                if first_call is None:
+                    first_call = children
         elif isinstance(node, ast.For):
             for_loop = For(node)
             for latest_call in latest_calls:

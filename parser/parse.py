@@ -13,6 +13,7 @@ def construct_function_def_objects(tree):
 
 if __name__ == '__main__':
     file = 'sample.py'
+    # file = 'ast_helper.py'
     start = None
     if len(sys.argv) == 3:
         file = sys.argv[1]

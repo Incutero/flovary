@@ -33,4 +33,4 @@ class For(ast.For):
             return self
         for child in self.children:
             tails.append(child.get_tails())
-        return flatten(tails)
+        return ast_helper.flatten(tails)
