@@ -1,15 +1,15 @@
 import ast
-from ast_helper import *
+import ast_helper
 
 
 class For(ast.For):
     
     def __init__(self, node):
         self.node = node
-        self.body = node.body #self.dfs_walk_body(node.body)
+        self.body = ast_helper.dfs_walk_body(node.body)
         self.parent = [] 
         self.children = []
-        self.name = 'For Loop'
+        self.name = 'For Loop', self.body
 
     def add_child(self, child):
         self.children.append(child)

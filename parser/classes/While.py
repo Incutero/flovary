@@ -1,32 +1,15 @@
 import ast
 import ast_helper
-from FuncCallVisitor import FuncCallVisitor
-
-def traverse_calls(calls):
-    if isinstance(calls, list):
-        dummy_node = Call(None)
-        for call in calls:
-            dummy_node.add_child(call)
-        return dummy_node.traverse()[1:]
-    else:
-        return calls.traverse()
 
 
-class Call(ast.Call):
+class While(ast.While):
     
     def __init__(self, node):
         self.node = node
-        if node:
-            self.name = self.get_name(node)
-        else:
-            self.name = "start"
+        self.body = ast_helper.dfs_walk_body(node.body)
         self.parent = [] 
         self.children = []
-
-    def get_name(self, node):
-        callvisitor = FuncCallVisitor()
-        callvisitor.visit(node.func)
-        return callvisitor.name
+        self.name = 'While Loop', self.body
 
     def add_child(self, child):
         self.children.append(child)
@@ -50,4 +33,4 @@ class Call(ast.Call):
             return self
         for child in self.children:
             tails.append(child.get_tails())
-        return ast_helper.flatten(tails)
+        return flatten(tails)

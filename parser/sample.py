@@ -2,13 +2,19 @@
 import foo
 
 def overall():
-
+    if (x):
+        y()
     data = open('file')                     # a function call
 
     foo.bar(arg=data)                       # a function call
 
 def mai2n():
     overall()
+    while i == 1:
+        print i
+        if (x):
+            wlifc()
+        wlc()
     foo.bar()
     for i in xrange(3):
         print i
