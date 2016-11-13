@@ -8,8 +8,11 @@ def overall():
     foo.bar(arg=data)                       # a function call
 
 def mai2n():
-#    overall()
-#    foo.bar()
+    overall()
+    foo.bar()
+    for i in xrange(3):
+        print i
+        flc()
     if (a):
 #       t()
         if (f):

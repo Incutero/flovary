@@ -1,7 +1,8 @@
 import ast
-from collections import deque, Sequence
+from collections import deque
 from ast_helper import *
 from Call import Call 
+from For import For
 
 class ASTFuncDef(object):
 
@@ -12,9 +13,6 @@ class ASTFuncDef(object):
 
     def __str__(self):
         print self.name
-
-    def flatten(self, l):
-        return sum(map(lambda x: x if isinstance(x, Sequence) else [x], l), [])
 
     # Walks through function and returns linkedlist of calls.
     def dfs_walk_get_calls(self, node):
@@ -31,7 +29,7 @@ class ASTFuncDef(object):
             else:
                 children.append(self.dfs_walk_body(node.orelse))
                 break
-        return self.flatten(children)
+        return flatten(children)
 
     # Walks through body and 
     def dfs_walk_body(self, todo):
@@ -47,10 +45,19 @@ class ASTFuncDef(object):
                         latest_call.add_child(child)
                         child.add_parent(latest_call)
                 latest_calls = [child.get_tails() for child in children]
-                latest_calls = self.flatten(latest_calls)
+                latest_calls = flatten(latest_calls)
                 child_nodes = None
                 if first_call is None:
                     first_call = children
+            elif isinstance(node, ast.For):
+                for_loop = For(node)
+                for latest_call in latest_calls:
+                    latest_call.add_child(for_loop)
+                    for_loop.add_parent(latest_call)
+                latest_calls = [for_loop]
+                if first_call is None:
+                    first_call = for_loop
+                child_nodes = None
             elif isinstance(node, ast.Call):
                 current_call = Call(node)
                 for latest_call in latest_calls:

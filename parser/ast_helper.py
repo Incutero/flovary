@@ -1,5 +1,5 @@
 import ast
-from collections import deque
+from collections import deque, Sequence
 
 def iter_fields(node):
     """
@@ -26,6 +26,9 @@ def iter_child_nodes(node):
                 if isinstance(item, ast.AST):
                     child_nodes.append(item)
     return child_nodes
+
+def flatten(l):
+    return sum(map(lambda x: x if isinstance(x, Sequence) else [x], l), [])
 
 def dfs_walk(node):
     todo = deque([node])
