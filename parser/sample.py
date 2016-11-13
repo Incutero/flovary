@@ -9,13 +9,14 @@ def overall():
 
 def mai2n():
 #    overall()
-    foo.bar()
+#    foo.bar()
     if (a):
-#        if (f):
-#            h()
-#            i()
-#        else:
-#            k()
+#       t()
+        if (f):
+            h()
+            i()
+        else:
+            k()
         b()
     elif (c):
         e()

@@ -31,37 +31,34 @@ class ASTFuncDef(object):
             else:
                 children.append(self.dfs_walk_body(node.orelse))
                 break
-        return children
+        return self.flatten(children)
 
     # Walks through body and 
     def dfs_walk_body(self, todo):
         todo = deque(todo)
         latest_calls = [Call(None)]
-        first_call = None 
+        first_call = None
         while todo:
             node = todo.popleft()
             if isinstance(node, ast.If):
                 children = self.dfs_walk_ifs(node)
                 for child in children:
-#                    print 'name', child.name
                     for latest_call in latest_calls:
-#                        print latest_call.name
                         latest_call.add_child(child)
                         child.add_parent(latest_call)
                 latest_calls = [child.get_tails() for child in children]
                 latest_calls = self.flatten(latest_calls)
-#                print "if", latest_calls
                 child_nodes = None
+                if first_call is None:
+                    first_call = children
             elif isinstance(node, ast.Call):
                 current_call = Call(node)
-                if first_call is None:
-                    first_call = current_call
-#                print latest_calls
                 for latest_call in latest_calls:
                     latest_call.add_child(current_call)
                     current_call.add_parent(latest_call)
                 latest_calls = [current_call]
-#                print "call", [latest_call.name for latest_call in latest_calls]
+                if first_call is None:
+                    first_call = current_call
                 child_nodes = None
             else:
                 child_nodes = iter_child_nodes(node)

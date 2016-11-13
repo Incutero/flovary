@@ -1,5 +1,16 @@
 import ast
+from collections import Sequence
 from FuncCallVisitor import FuncCallVisitor
+
+def traverse_calls(calls):
+    if isinstance(calls, list):
+        dummy_node = Call(None)
+        for call in calls:
+            dummy_node.add_child(call)
+        return dummy_node.traverse()[1:]
+    else:
+        return calls.traverse()
+
 
 class Call(ast.Call):
     
@@ -30,13 +41,16 @@ class Call(ast.Call):
         while len(cur_node.children) is not 0:
             for node in cur_node.children:
                 calls.append(node.traverse())
-            cur_node = cur_node.children[0]
+            break
         return calls
 
+    def flatten(self, l):
+         return sum(map(lambda x: x if isinstance(x, Sequence) else [x], l), [])
+    
     def get_tails(self):
         tails = []
         if len(self.children) == 0:
             return self
         for child in self.children:
             tails.append(child.get_tails())
-        return tails
+        return self.flatten(tails)
