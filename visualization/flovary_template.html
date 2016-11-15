@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style> /* set the CSS */
+
+.bar { fill: steelblue; }
+.node { fill: steelblue;}
+.flow {
+  opacity: .5;
+}
+.flow:hover {
+  opacity: 1;
+}
+.node:hover {fill: orangered; opacity: inherit;}
+.d3-tip {
+  line-height: 1;
+  font-weight: bold;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 2px;
+}
+
+
+//* Eastward tooltips */
+  .d3-tip.e:after {
+    content: "\25C0";
+    margin: -4px 0 0 0;
+    top: 50%;
+    left: -8px;
+  }
+
+
+</style>
+<body>
+  <h1> flovary </h1> <hr>
+	
+<!-- load the d3.js library -->    	
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="./d3-tip.js"></script>
+<script>
+
+data = [["main", "calculate_x", "print_y"], ["main", "do_this", "and_then_that", "whoop_de_loop", "helo", "it_me"], ["LOL!", "for loop", "while loop", "hula loop"], ["foo", "bar", "baz", "lolz"]]
+//data = [[1, 2, 3], [1, 2, 4, 5, 6, 7], [1, 2, 3, 4], [1, 2, 3, 4]]
+// set the dimensions and margins of the graph
+var margin = {top: 20, right: 20, bottom: 30, left: 40},
+    width = 960 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+
+// set the ranges
+var x = d3.scaleBand()
+          .range([0, width])
+          .padding(0.1);
+var y = d3.scaleLinear()
+          .range([height, 0]);
+          
+// append the svg object to the body of the page
+// append a 'group' element to 'svg'
+// moves the 'group' element to the top left margin
+var svg = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", 
+          "translate(" + margin.left + "," + margin.top + ")");
+
+
+// format the data
+data.forEach(function(d) {
+  d.sales = +d.sales;
+});
+
+// Scale the range of the data in the domains
+x.domain(data.map(function(d, i) { return i; }));
+y.domain([0, d3.max(data, function(d) { return d.length; })]);
+
+var tip = d3.tip()
+  .attr('class', 'd3-tip')
+  .offset([0, 10])
+  .html(function(d) {
+    return "<strong>" + d + "</strong><hr><span style='color:red'>" + d + "</span>";
+  })
+  .direction('e');
+
+svg.call(tip)
+
+// append the rectangles for the bar chart
+flows = svg.selectAll(".flow")
+           .data(data)
+           .enter().append("g")
+           .attr("class", "flow")
+           .attr("x", function(d, i) { return x(i); })
+           .attr("y", function(d, i) { return y(d.length); })
+           .attr("transform", function(d, i) { return "translate(" + x(i) + ",0)"; })
+           .attr("width", x.bandwidth())
+           .selectAll(".node")
+           .data(function(d, i) {return d; })
+           .enter().append("circle")
+           .attr("class", "node")
+           .attr("cx", x.bandwidth()/2)
+           .attr("cy", function(d, i) {return height - (y(i) - 25); })
+           .attr("r", 20)
+           .on('mouseover', tip.show)
+           .on('mouseout', tip.hide)
+           .append("marker")
+
+
+
+
+
+
+
+
+
+</script>
+</body>
